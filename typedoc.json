@@ -1,0 +1,6 @@
+{
+    // Comments are supported, like tsconfig.json
+    "entryPoints": ["src/index.ts", "src/sdk/models/*.ts","src/sdk/client/*.ts"],
+    "out": "docs"
+}
+
