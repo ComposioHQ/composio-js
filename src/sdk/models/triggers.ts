@@ -1,10 +1,17 @@
 import { CancelablePromise, ListTriggersData, ListTriggersResponse, SetupTriggerData, SetupTriggerResponse, listTriggers, setupTrigger } from "../client";
 import { Composio } from "../";
+import { subscribe } from "diagnostics_channel";
+import { subscribeToPusher } from "../utils/pusher";
 
 export class Triggers {
+    trigger_to_client_event = "trigger_to_client";
+
+    clientId: string;
     constructor(private client: Composio) {
         this.client = client;
+        this.clientId = client.clientId;
     }
+
     /**
      * Retrieves a list of all triggers in the Composio platform.
      * 
@@ -27,5 +34,13 @@ export class Triggers {
      */
     setup(data: SetupTriggerData): CancelablePromise<SetupTriggerResponse> {
         return setupTrigger(data, this.client.config);
+    }
+
+    subscribe(fn: (data: { appName: string; clientId: number; triggerData: {}; originalPayload: { body: string; header: string } }) => void) {
+        subscribeToPusher(`${this.clientId}_triggers`, this.trigger_to_client_event, (data: { appName: string; clientId: number; triggerData: {}; originalPayload: { body: string; header: string } }) => {
+            if (!!fn) {
+                fn(data)
+            }
+        })
     }
 }

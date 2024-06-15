@@ -11,6 +11,7 @@ export class Composio {
     private apiKey: string;
     private baseUrl: string;
     private http: AxiosInstance;
+    public clientId: string;
 
 
     connectedAccounts: ConnectedAccounts;
