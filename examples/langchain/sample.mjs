@@ -3,7 +3,7 @@ import { createOpenAIFunctionsAgent, AgentExecutor } from "langchain/agents";
 import { pull } from "langchain/hub";
 import { LangchainToolSet } from "composio-core";
 
-const toolset = new LangchainToolSet({ apiKey: process.env.COMPOSIO_API_KEY, baseUrl: "https://syntax-seat-surface-authors.trycloudflare.com/api" });
+const toolset = new LangchainToolSet({ apiKey: process.env.COMPOSIO_API_KEY});
 
 async function setupUserConnectionIfNotExists(entityId) {
     const entity = await toolset.client.getEntity(entityId);
