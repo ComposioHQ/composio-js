@@ -3,7 +3,6 @@ const PusherClient = require("pusher-js")
 const PUSHER_KEY = "ff9f18c208855d77a152"
 const PUSHER_CLUSTER = "mt1"
 
-
 const pusherClient = new PusherClient(PUSHER_KEY, {
     cluster: PUSHER_CLUSTER,
     userAuthentication: {
@@ -16,7 +15,6 @@ const pusherClient = new PusherClient(PUSHER_KEY, {
         customHandler: null,
     },
 });
-
 
 
 /**
@@ -47,7 +45,7 @@ export const unsubscribe = (channelName: string): void => {
  * @param {string} event - The event to bind to the channel.
  * @param {(data: any) => void} callback - The callback function to execute when the event is triggered.
  */
-function bindWithChunking(channel: typeof PusherClient, event: string, callback: (data: any) => void): void {
+export function bindWithChunking(channel: typeof PusherClient, event: string, callback: (data: any) => void): void {
     channel.bind(event, callback); // Allow normal unchunked events.
 
     // Now the chunked variation. Allows arbitrarily long messages.
@@ -66,12 +64,36 @@ function bindWithChunking(channel: typeof PusherClient, event: string, callback:
     });
 }
 
+
+export interface TriggerData {
+    appName: string;
+    clientId: number;
+    payload: {};
+    originalPayload: Record<string, any>;
+    metadata: {
+        id: string;
+        connectionId: string;
+        triggerName: string;
+        triggerData: string;
+        triggerConfig: Record<string, any>;
+        connection: {
+            id: string;
+            integrationId: string;
+            clientUniqueUserId: string;
+            status: string;
+        }
+    }
+}
 /**
  * Subscribes to a trigger channel for a client and handles chunked data.
  * @param {string} clientId - The unique identifier for the client subscribing to the events.
  * @param {(data: any) => void} fn - The callback function to execute when trigger data is received.
  */
-const triggerSubscribe = (clientId: string, fn: (data: any) => void) => {
+export const triggerSubscribe = (clientId: string, fn: (data: TriggerData) => void) => {
     var channel = pusherClient.subscribe(`${clientId}_triggers`);
     bindWithChunking(channel, "trigger_to_client", fn);
+}
+
+export const triggerUnsubscribe = (clientId: string) => {
+    pusherClient.unsubscribe(`${clientId}_triggers`);
 }

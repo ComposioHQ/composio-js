@@ -1,7 +1,7 @@
 import { CancelablePromise, ListTriggersData, ListTriggersResponse, SetupTriggerData, SetupTriggerResponse, listTriggers, setupTrigger } from "../client";
 import { Composio } from "../";
-import { subscribe } from "diagnostics_channel";
-import { subscribeToPusher } from "../utils/pusher";
+import { TriggerData, triggerSubscribe, triggerUnsubscribe } from "../utils/pusher";
+
 
 export class Triggers {
     trigger_to_client_event = "trigger_to_client";
@@ -36,11 +36,12 @@ export class Triggers {
         return setupTrigger(data, this.client.config);
     }
 
-    subscribe(fn: (data: { appName: string; clientId: number; triggerData: {}; originalPayload: { body: string; header: string } }) => void) {
-        subscribeToPusher(`${this.clientId}_triggers`, this.trigger_to_client_event, (data: { appName: string; clientId: number; triggerData: {}; originalPayload: { body: string; header: string } }) => {
-            if (!!fn) {
-                fn(data)
-            }
-        })
+    subscribe(fn: (data: TriggerData) => void) {
+        triggerSubscribe(this.clientId, fn);
+    }
+
+    unsubscribe() {
+        triggerUnsubscribe(this.clientId);
     }
 }
+
