@@ -23,6 +23,9 @@ dependencies:
   openai:
     specifier: ^4.50.0
     version: 4.51.0
+  pusher-js:
+    specifier: 8.4.0-rc2
+    version: 8.4.0-rc2
   zod:
     specifier: ^3.23.8
     version: 3.23.8
@@ -1909,6 +1912,12 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /pusher-js@8.4.0-rc2:
+    resolution: {integrity: sha512-d87GjOEEl9QgO5BWmViSqW0LOzPvybvX6WA9zLUstNdB57jVJuR27zHkRnrav2a3+zAMlHbP2Og8wug+rG8T+g==}
+    dependencies:
+      tweetnacl: 1.0.3
+    dev: false
+
   /randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
@@ -2159,6 +2168,10 @@ packages:
       typescript: 5.4.5
       webpack: 5.92.0(webpack-cli@5.1.4)
     dev: true
+
+  /tweetnacl@1.0.3:
+    resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
+    dev: false
 
   /typedoc@0.25.13(typescript@5.4.5):
     resolution: {integrity: sha512-pQqiwiJ+Z4pigfOnnysObszLiU3mVLWAExSPf+Mu06G/qsc3wzbuM56SZQvONhHLncLUhYzOVkjFFpFfL5AzhQ==}

@@ -1,15 +1,13 @@
 import { CancelablePromise, ListTriggersData, ListTriggersResponse, SetupTriggerData, SetupTriggerResponse, listTriggers, setupTrigger } from "../client";
 import { Composio } from "../";
-import { TriggerData, triggerSubscribe, triggerUnsubscribe } from "../utils/pusher";
+import { PusherUtils, TriggerData } from "../utils/pusher";
 
 
 export class Triggers {
     trigger_to_client_event = "trigger_to_client";
 
-    clientId: string;
     constructor(private client: Composio) {
         this.client = client;
-        this.clientId = client.clientId;
     }
 
     /**
@@ -36,12 +34,15 @@ export class Triggers {
         return setupTrigger(data, this.client.config);
     }
 
-    subscribe(fn: (data: TriggerData) => void) {
-        triggerSubscribe(this.clientId, fn);
+    async subscribe(fn: (data: TriggerData) => void) {
+        const clientId = await this.client.getClientId();
+        await PusherUtils.getPusherClient(this.client.baseUrl, this.client.apiKey);
+        PusherUtils.triggerSubscribe(clientId, fn);
     }
 
-    unsubscribe() {
-        triggerUnsubscribe(this.clientId);
+    async unsubscribe() {
+        const clientId = await this.client.getClientId();
+        PusherUtils.triggerUnsubscribe(clientId);
     }
 }
 
