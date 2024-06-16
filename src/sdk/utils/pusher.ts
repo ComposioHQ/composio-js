@@ -24,10 +24,9 @@ const pusherClient = new PusherClient(PUSHER_KEY, {
  * @param {(data: any) => void} fn - The callback function to execute when the event is triggered.
  * @returns {PusherClient} The Pusher client instance.
  */
-export const subscribe = (channelName: string, event: string, fn: (data: any) => void): PusherClient => {
-    const client = pusherClient.subscribe(channelName).bind(event, fn);
+export const subscribe = (channelName: string, event: string, fn: (data: any) => void): void=> {
+    pusherClient.subscribe(channelName).bind(event, fn);
     console.log(`Subscribed to ${channelName} with event ${event}`);
-    return client;
 }
 
 /**
