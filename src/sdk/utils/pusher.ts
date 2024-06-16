@@ -63,7 +63,6 @@ export class PusherUtils {
     static async subscribe(channelName: string, event: string, fn: (data: any) => void): Promise<void> {
         try {
             await PusherUtils.pusherClient.subscribe(channelName).bind(event, fn);
-            console.log(`Subscribed to ${channelName} with event ${event}`);
         } catch (error) {
             console.error(`Error subscribing to ${channelName} with event ${event}: ${error}`);
         }

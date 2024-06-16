@@ -40,7 +40,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-	BASE: 'https://backend.composio.dev/api',
+	BASE: 'https://syntax-seat-surface-authors.trycloudflare.com/api',
 	CREDENTIALS: 'include',
 	ENCODE_PATH: undefined,
 	HEADERS: undefined,

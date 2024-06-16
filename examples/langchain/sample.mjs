@@ -9,14 +9,14 @@ async function setupUserConnectionIfNotExists(entityId) {
     const entity = await toolset.client.getEntity(entityId);
     const connection = await entity.getConnection('github');
     if (!connection) {
-        const connection = await entity.initiateConnection(appName);
+        const connection = await entity.initiateConnection('github');
         console.log("Log in via: ", connection.redirectUrl);
         return connection.waitUntilActive(60);
     }
     return connection;
 }
 
-async function executeAgent(entityName) {
+async function executeAgent(entityName,url) {
     // Create entity and get tools
     const entity = await toolset.client.getEntity(entityName)
     await setupUserConnectionIfNotExists(entity.id);
@@ -29,7 +29,7 @@ async function executeAgent(entityName) {
     });
 
 
-    const body = "TITLE: HELLO WORLD, DESCRIPTION: HELLO WORLD for the repo - himanshu-dixit/custom-repo-breaking"
+    const body = `TITLE: ${url}, DESCRIPTION: ${url} for the repo - himanshu-dixit/custom-repo-breaking`
     const agent = await createOpenAIFunctionsAgent({
         llm,
         tools: tools,
@@ -45,7 +45,15 @@ async function executeAgent(entityName) {
 }
 
 toolset.client.triggers.subscribe(async (data) => {
-    console.log(data)
+    console.log("DATA for himanshu",data)
+    // executeAgent("himanshu",data.payload.repository.html_url)
+},{
+    entityId: "himanshu"
 })
 
-// executeAgent("himanshu")
+toolset.client.triggers.subscribe(async (data) => {
+    console.log("DATA for default",data)
+    // executeAgent("himanshu",data.payload.repository.html_url)
+},{
+    entityId: "default"
+})
