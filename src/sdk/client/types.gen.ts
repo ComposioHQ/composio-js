@@ -699,12 +699,18 @@ export type ExecuteActionData = {
          */
         connectedAccountId?: string;
         /**
-         * An object containing the input parameters for the action.
+         * An object containing the input parameters for the action. If you want to execute 
+         * NLP based action (i.e text), you can use text parameter instead of input.
          */
         input?: {
             [key: string]: unknown;
         };
         appName?: string;
+        /**
+         * The text to supply to the action which will be automatically coverted to 
+         * appropriate input parameters.
+         */
+        text?: string;
     };
 };
 
@@ -743,7 +749,7 @@ export type GetListActionsData = {
     /**
      * Filter by use case
      */
-    useCase?: string;
+    useCase?: string | undefined;
     /**
      * Limit of use-cases based search
      */
