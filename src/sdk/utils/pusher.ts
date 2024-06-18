@@ -31,14 +31,6 @@ export class PusherUtils {
 
     static getPusherClient(baseURL: string, apiKey: string): typeof PusherClient {
         if (!PusherUtils.pusherClient) {
-            console.log(`Getting pusher client for ${baseURL} and ${apiKey}`);
-            console.log({userAuthentication: {
-                endpoint: `${baseURL}/v1/client/auth/pusher_auth`,
-                headers: {
-                    "x-api-key": apiKey
-                }
-            }});
-
             PusherUtils.pusherClient = new PusherClient(PUSHER_KEY, {
                 cluster: PUSHER_CLUSTER,
                 channelAuthorization: {
